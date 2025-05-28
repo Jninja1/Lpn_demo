@@ -1,0 +1,121 @@
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="LpnConsolidation.aspx.cs"
+    Inherits="Portfolio.Projects.LpnConsolidation" %>
+    <%@ Register TagPrefix="custom" Namespace="protfolio.project"
+        Assembly="xxx, Version=16.0.0.0, Culture=neutral, PublicKeyToken=a978a715ccadf176" %>
+        <%@ Register TagPrefix="custom1" Namespace="Manh.WMW.Inventory.BL"
+            Assembly="xxx.BL, Version=16.0.0.0, Culture=neutral, PublicKeyToken=a978a715ccadf176" %>
+
+
+            <!DOCTYPE html>
+            <html xmlns="http://www.w3.org/1999/xhtml">
+
+            <head runat="server">
+                <title>LPN Consolidation</title>
+            </head>
+
+            <body>
+                <form id="LPN_merge" runat="server">
+                    <center>
+                        <h3>LPN Consolidation</h3>
+                    </center>
+
+                    <center>
+
+                        <table align="center" border="0" style="width: 300px;">
+                            <tr>
+                                <td colspan="2">
+                                    <asp:Label runat="server" ForeColor="Red" ID="lblMessage"></asp:Label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>From LPN: </td>
+                                <td>
+                                    <!-- Textboxes for LPNs -->
+                                    <asp:TextBox ID="LPN1" runat="server" Placeholder="Enter From LPN"></asp:TextBox>
+                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator" runat="server"
+                                        ControlToValidate="LPN1" ErrorMessage="<br/>Please enter an LPN"
+                                        Display="Dynamic"></asp:RequiredFieldValidator>
+                                    <!--
+                            Forces the user to input ANY text. This prevents empty data from being parsed
+                            Documentation found here -> https://learn.microsoft.com/en-us/dotnet/api/system.web.ui.webcontrols.requiredfieldvalidator?view=netframework-4.8.1
+                            -->
+                                    <asp:RegularExpressionValidator ID="length_validator_1" runat="server"
+                                        ControlToValidate="LPN1"
+                                        ErrorMessage="<br>Invalid length. 1-50 characters are allowed"
+                                        ValidationExpression="^.{1,50}$" Display="Dynamic">
+                                    </asp:RegularExpressionValidator>
+                                    <!-- 
+                            Prevents the user from inputing any data that is shorter than 0, function above checks that, and no longer than 50 chars. Just an
+                            abritray number I picked 
+                            Documentation found at -> https://learn.microsoft.com/en-us/dotnet/api/system.web.ui.webcontrols.regularexpressionvalidator?view=netframework-4.8.1
+                            -->
+                                    <asp:RegularExpressionValidator ID="char_validator_1" runat="server"
+                                        ControlToValidate="LPN1"
+                                        ErrorMessage="<br>Invalid characters: Letters, numbers, @, -, and _ allowed."
+                                        ValidationExpression="^[a-zA-Z0-9\-\@_]*$" Display="Dynamic">
+                                    </asp:RegularExpressionValidator>
+                                    <!-- 
+                            Prevents the user from inputing any data that contains a char that is not a-zA-Z or 0-9. This prevents malicious code from leaking through
+                            Documentation found at -> https://learn.microsoft.com/en-us/dotnet/api/system.web.ui.webcontrols.regularexpressionvalidator?view=netframework-4.8.1
+                            -->
+                                </td>
+
+                            </tr>
+
+                            <tr>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>To LPN: </td>
+                                <td>
+                                    <asp:TextBox ID="LPN2" runat="server" Placeholder="Enter To LPN"></asp:TextBox>
+                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server"
+                                        ControlToValidate="LPN2" ErrorMessage="<br/>Please enter an LPN"
+                                        Display="Dynamic"></asp:RequiredFieldValidator>
+                                    <!--
+                        Forces the user to input ANY text. This prevents empty data from being parsed
+                        Documentation found here -> https://learn.microsoft.com/en-us/dotnet/api/system.web.ui.webcontrols.requiredfieldvalidator?view=netframework-4.8.1
+                        -->
+                                    <asp:RegularExpressionValidator ID="length_validator_2" runat="server"
+                                        ControlToValidate="LPN2"
+                                        ErrorMessage="<br>Invalid length. 1-50 characters allowed"
+                                        ValidationExpression="^.{1,50}$" Display="Dynamic">
+                                    </asp:RegularExpressionValidator>
+                                    <!-- 
+                        Prevents the user from inputing any data that is shorter than 0, function above checks that, and no longer than 50 chars. Just an
+                        abritray number I picked 
+                        Documentation found at -> https://learn.microsoft.com/en-us/dotnet/api/system.web.ui.webcontrols.regularexpressionvalidator?view=netframework-4.8.1
+                        -->
+                                    <asp:RegularExpressionValidator ID="char_validator_2" runat="server"
+                                        ControlToValidate="LPN2"
+                                        ErrorMessage="<br>Invalid characters: Letters, numbers, @, -, and _ allowed."
+                                        ValidationExpression="^[a-zA-Z0-9\-_\@]*$" Display="Dynamic">
+                                    </asp:RegularExpressionValidator>
+                                    <!-- 
+                        Prevents the user from inputing any data that contains a char that is not a-zA-Z or 0-9. This prevents malicious code from leaking through
+                        Documentation found at -> https://learn.microsoft.com/en-us/dotnet/api/system.web.ui.webcontrols.regularexpressionvalidator?view=netframework-4.8.1
+                        -->
+                                </td>
+                            </tr>
+                            <tr align="center">
+                                <td align="center">
+                                    <asp:Button runat="server" Text="Submit" OnClick="bOkClicked" />
+                                </td>
+                                <td align="center">
+                                    <asp:Button runat="server" Text="Cancel" OnClick="bCancelClicked"
+                                        CausesValidation="false" />
+
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <asp:Label runat="server" ForeColor="Green" ID="lblDebug"></asp:Label>
+                                </td>
+                            </tr>
+                        </table>
+                    </center>
+                </form>
+            </body>
+
+            </html>
